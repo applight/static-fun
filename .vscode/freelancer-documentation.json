@@ -19,3 +19,317 @@ Build Info: {
 "target_arch": "x86_64"
 }
 }
+
+
+
+
+# Based on:
+Install MongoDB Community Edition on Ubuntu
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
+
+# Version to install:
+5.0.7 - April 11, 2022
+https://www.mongodb.com/docs/manual/release-notes/5.0/
+
+# Starting with this system:
+Command:
+lsb_release -a;
+
+Output:
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 20.04.3 LTS
+Release:        20.04
+Codename:       focal
+
+# 1.- Import the public key used by the package management system.
+echo "GPK key for the MongoDB apt";
+
+From a terminal, issue the following command to import the MongoDB public GPG Key from https://www.mongodb.org/static/pgp/server-5.0.asc:
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+
+The operation should respond with an OK.
+
+#----------------------------------------------------------------------------------
+
+# 2.- Create a list file for MongoDB v5.
+Create the list file /etc/apt/sources.list.d/mongodb-org-5.0.list for your version of Ubuntu.
+Click on the appropriate tab for your version of Ubuntu. If you are unsure of what Ubuntu version the host is running, open a terminal or shell on the host and execute lsb_release -dc.
+
+Command:
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+
+Output:
+deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse
+
+#----------------------------------------------------------------------------------
+
+# 3.- Reload local package database.
+
+Command:
+sudo apt-get update;
+
+Output:
+Ign:4 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 InRelease
+Hit:1 http://mirror.eu.oneandone.net/ubuntu/ubuntu focal InRelease
+Get:2 http://mirror.eu.oneandone.net/ubuntu/ubuntu focal-updates InRelease [114 kB]
+Get:6 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 Release [4,412 B]
+Get:7 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 Release.gpg [801 B]
+Get:3 http://mirror.eu.oneandone.net/ubuntu/ubuntu focal-backports InRelease [108 kB]
+Get:5 http://mirror.eu.oneandone.net/ubuntu/ubuntu focal-security InRelease [114 kB]
+Get:8 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 Packages [14.3 kB]
+Get:11 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse arm64 Packages [12.5 kB]
+Get:9 http://mirror.eu.oneandone.net/ubuntu/ubuntu focal-updates/main amd64 Packages [1,712 kB]
+Get:10 http://mirror.eu.oneandone.net/ubuntu/ubuntu focal-updates/universe amd64 Packages [918 kB]
+Fetched 2,999 kB in 1s (2,994 kB/s)
+Reading package lists... Done
+
+#----------------------------------------------------------------------------------
+
+# 4.- Install the MongoDB packages.
+To install the latest stable version, issue the following
+
+Command:
+sudo apt-get install -y mongodb-org;
+
+Resultado:
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  mongodb-database-tools mongodb-mongosh mongodb-org-database mongodb-org-database-tools-extra mongodb-org-mongos mongodb-org-server mongodb-org-shell mongodb-org-tools
+The following NEW packages will be installed:
+  mongodb-database-tools mongodb-mongosh mongodb-org mongodb-org-database mongodb-org-database-tools-extra mongodb-org-mongos mongodb-org-server mongodb-org-shell mongodb-org-tools
+0 upgraded, 9 newly installed, 0 to remove and 58 not upgraded.
+Need to get 147 MB of archives.
+After this operation, 464 MB of additional disk space will be used.
+Get:1 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-database-tools amd64 100.5.2 [46.5 MB]
+Get:2 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-mongosh amd64 1.3.1 [40.8 MB]
+Get:3 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org-shell amd64 5.0.7 [14.4 MB]
+Get:4 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org-server amd64 5.0.7 [26.3 MB]
+Get:5 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org-mongos amd64 5.0.7 [18.5 MB]
+Get:6 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org-database-tools-extra amd64 5.0.7 [7,752 B]
+Get:7 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org-database amd64 5.0.7 [3,540 B]
+Get:8 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org-tools amd64 5.0.7 [2,892 B]
+Get:9 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0/multiverse amd64 mongodb-org amd64 5.0.7 [2,932 B]
+Fetched 147 MB in 4s (34.9 MB/s)
+Selecting previously unselected package mongodb-database-tools.
+(Reading database ... 152296 files and directories currently installed.)
+Preparing to unpack .../0-mongodb-database-tools_100.5.2_amd64.deb ...
+Unpacking mongodb-database-tools (100.5.2) ...
+Selecting previously unselected package mongodb-mongosh.
+Preparing to unpack .../1-mongodb-mongosh_1.3.1_amd64.deb ...
+Unpacking mongodb-mongosh (1.3.1) ...
+Selecting previously unselected package mongodb-org-shell.
+Preparing to unpack .../2-mongodb-org-shell_5.0.7_amd64.deb ...
+Unpacking mongodb-org-shell (5.0.7) ...
+Selecting previously unselected package mongodb-org-server.
+Preparing to unpack .../3-mongodb-org-server_5.0.7_amd64.deb ...
+Unpacking mongodb-org-server (5.0.7) ...
+Selecting previously unselected package mongodb-org-mongos.
+Preparing to unpack .../4-mongodb-org-mongos_5.0.7_amd64.deb ...
+Unpacking mongodb-org-mongos (5.0.7) ...
+Selecting previously unselected package mongodb-org-database-tools-extra.
+Preparing to unpack .../5-mongodb-org-database-tools-extra_5.0.7_amd64.deb ...
+Unpacking mongodb-org-database-tools-extra (5.0.7) ...
+Selecting previously unselected package mongodb-org-database.
+Preparing to unpack .../6-mongodb-org-database_5.0.7_amd64.deb ...
+Unpacking mongodb-org-database (5.0.7) ...
+Selecting previously unselected package mongodb-org-tools.
+Preparing to unpack .../7-mongodb-org-tools_5.0.7_amd64.deb ...
+Unpacking mongodb-org-tools (5.0.7) ...
+Selecting previously unselected package mongodb-org.
+Preparing to unpack .../8-mongodb-org_5.0.7_amd64.deb ...
+Unpacking mongodb-org (5.0.7) ...
+Setting up mongodb-mongosh (1.3.1) ...
+Setting up mongodb-org-server (5.0.7) ...
+Adding system user `mongodb' (UID 115) ...
+Adding new user `mongodb' (UID 115) with group `nogroup' ...
+Not creating home directory `/home/mongodb'.
+Adding group `mongodb' (GID 120) ...
+Done.
+Adding user `mongodb' to group `mongodb' ...
+Adding user mongodb to group mongodb
+Done.
+Setting up mongodb-org-shell (5.0.7) ...
+Setting up mongodb-database-tools (100.5.2) ...
+Setting up mongodb-org-mongos (5.0.7) ...
+Setting up mongodb-org-database-tools-extra (5.0.7) ...
+Setting up mongodb-org-database (5.0.7) ...
+Setting up mongodb-org-tools (5.0.7) ...
+Setting up mongodb-org (5.0.7) ...
+Processing triggers for man-db (2.9.1-1) ...
+
+Optional. Although you can specify any available version of MongoDB, apt-get will upgrade the packages when a newer version becomes available. To prevent unintended upgrades, you can pin the package at the currently installed version:
+echo "mongodb-org hold" | sudo dpkg --set-selections;
+echo "mongodb-org-database hold" | sudo dpkg --set-selections;
+echo "mongodb-org-server hold" | sudo dpkg --set-selections;
+echo "mongodb-org-shell hold" | sudo dpkg --set-selections;
+echo "mongodb-org-mongos hold" | sudo dpkg --set-selections;
+echo "mongodb-org-tools hold" | sudo dpkg --set-selections;
+
+
+echo "See mongo version";
+Command:
+mongod --version;
+
+Output:
+db version v5.0.7
+Build Info: {
+    "version": "5.0.7",
+    "gitVersion": "b977129dc70eed766cbee7e412d901ee213acbda",
+    "openSSLVersion": "OpenSSL 1.1.1f  31 Mar 2020",
+    "modules": [],
+    "allocator": "tcmalloc",
+    "environment": {
+        "distmod": "ubuntu2004",
+        "distarch": "x86_64",
+        "target_arch": "x86_64"
+    }
+}
+
+# Open the ports
+sudo ufw allow 27017/tcp comment 'MongoDB server member 27017';
+sudo ufw allow 27018/tcp comment 'MongoDB server member 27018';
+sudo ufw allow 27019/tcp comment 'MongoDB server member 27019';
+ufw status numbered;
+
+# Create dirs
+mkdir -p /var/lib/mongo/key/;
+mkdir -p /var/lib/mongo/member1/;
+mkdir -p /var/lib/mongo/member1/data/;
+mkdir -p /var/lib/mongo/member1/log/;
+mkdir -p /var/lib/mongo/member2/;
+mkdir -p /var/lib/mongo/member2/data/;
+mkdir -p /var/lib/mongo/member2/log/;
+mkdir -p /var/lib/mongo/member3/;
+mkdir -p /var/lib/mongo/member3/data/;
+mkdir -p /var/lib/mongo/member3/log/;
+echo "El comando chown en linux (change owner) nos permite cambiar de propietario en archivos y directorios de linux";
+chmod -R 600 /var/lib/mongo/key/;
+chmod -R 600 /var/lib/mongo/member1/;
+chmod -R 600 /var/lib/mongo/member1/data/;
+chmod -R 600 /var/lib/mongo/member1/log/;
+chmod -R 600 /var/lib/mongo/member2/;
+chmod -R 600 /var/lib/mongo/member2/data/;
+chmod -R 600 /var/lib/mongo/member2/log/;
+chmod -R 600 /var/lib/mongo/member3/;
+chmod -R 600 /var/lib/mongo/member3/data/;
+chmod -R 600 /var/lib/mongo/member3/log/;
+
+# See my boot system in linux
+Command:
+ps --no-headers -o comm 1
+
+Output:
+systemd
+
+
+#----------------------------------------------------------------------------------
+#  PROCESO DE EJECUCIÓN
+#----------------------------------------------------------------------------------
+# 1.- Start MongoDB.
+
+You can start the mongod process by issuing the following command:
+Command:
+sudo systemctl start mongod;
+
+Output:
+none
+
+# 2.- Verify that MongoDB has started successfully.
+Command:
+sudo systemctl status mongod;
+
+Output:
+● mongod.service - MongoDB Database Server
+     Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor preset: enabled)
+     Active: active (running) since Fri ............. UTC; 14s ago
+       Docs: https://docs.mongodb.org/manual
+   Main PID: .... (mongod)
+     Memory: 60.2M
+     CGroup: /system.slice/mongod.service
+             └─..... /usr/bin/mongod --config /etc/mongod.conf
+
+Apr 15 13:16:58 ..... systemd[1]: Started MongoDB Database Server.
+
+
+# You can optionally ensure that MongoDB will start following a system reboot by issuing the following 
+Command:
+sudo systemctl enable mongod;
+
+Output:
+Created symlink /etc/systemd/system/multi-user.target.wants/mongod.service → /lib/systemd/system/mongod.service.
+
+# Restart MongoDB.
+You can restart the mongod process by issuing the following command:
+sudo systemctl restart mongod ;
+
+# Check your version of mongo
+mongod --version;
+mongo --version;
+
+
+# Start the NODES without authentication
+mongod --replSet replicaserver --dbpath /var/lib/mongo/member3/data --directoryperdb --port 27019 --bind_ip 0.0.0.0 --quiet --logpath /var/lib/mongo/member3/log/milog.txt  --fork
+mongod --replSet replicaserver --dbpath /var/lib/mongo/member2/data --directoryperdb --port 27018 --bind_ip 0.0.0.0 --quiet --logpath /var/lib/mongo/member2/log/milog.txt -fork
+mongod --replSet replicaserver --dbpath /var/lib/mongo/member1/data --directoryperdb --port 27017 --bind_ip 0.0.0.0 --quiet --logpath /var/lib/mongo/member1/log/milog.txt -fork
+
+// Check if MONGO INSTANCES are up
+ps aux | grep mongod;
+
+
+# Check state of service mongod
+echo "------------------------------";
+Command:
+systemctl status mongod;
+
+
+echo "See mongo programs available"
+ls -l /usr/bin/mongo* ;
+
+
+
+echo "See running instances:"
+ps aux | grep mongod;
+
+echo "Enter in node that will be PRIMARY"
+mongo -port 27017;
+
+
+# Force first one to be primary
+config = { _id: "replicaserver", members:[
+          { _id : 0, host : "<public ipv4 of server>:27017", priority : 10},
+          { _id : 1, host : "<public ipv4 of server>:27018", priority : 1},
+          { _id : 2, host : "<public ipv4 of server>:27019", priority : 1} ] };		  
+rs.initiate(config);
+
+rs.status();
+
+rs.config();
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Create database development
+use desarrollo;
+// Insert demo data:
+db.paraquehayaalgo.insert({"SampleValue1" : 1, "SampleValue2" : "randomStringOfText1"});
+// Show current databases
+show databases;
+
+
+// Create database production
+use produccion;
+// Insert demo data:
+db.paraquehayaalgo.insert({"SampleValue1" : 1, "SampleValue2" : "randomStringOfText1"});
+// Show current databases
+show databases;
+
+// Creation of users
+// Applying permissions to users
+// Closing nodes
+// Quiting mongo
+// Launch nodes as authenticated
+// Entering in mongo as authenticated user
+# To be continued...
+

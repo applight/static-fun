@@ -1,0 +1,21 @@
+It is necesary to write an administration guide for mongo databases working in Replicaset mode:
+- Regeneration of indexes per collection maintaining the replicaset structure at the end.
+- Making of backup per database in a format easy to use to move the data into another server with same config.
+- Making of backup per collection in a format easy to use to move the data into another server with same config.
+- Analysing the main debug messages from the script in order to prevent failures.
+
+
+
+db version v5.0.7
+Build Info: {
+"version": "5.0.7",
+"gitVersion": "b977129dc70eed766cbee7e412d901ee213acbda",
+"openSSLVersion": "OpenSSL 1.1.1f 31 Mar 2020",
+"modules": [],
+"allocator": "tcmalloc",
+"environment": {
+"distmod": "ubuntu2004",
+"distarch": "x86_64",
+"target_arch": "x86_64"
+}
+}

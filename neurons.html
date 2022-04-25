@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <script type="application/javascript">
+    var c_height = 650;
+    var c_width = 850;
+
+    class Neuron {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        draw(ctx) {
+            ctx.beginPath();
+            ctx.lineWidth = "1";
+            ctx.strokeStyle = "red";
+            ctx.rect(this.x-2,this.y-2,4,4);
+            ctx.stroke();
+        }
+    }
+
+    class NeuronGraph {
+        constructor(n, max) {
+            // note number of neurons
+            this.n = n;
+            this.neurons = [];
+            this.connections = [];
+
+            // divide the canvas space for neuron placement
+            // we'll start with even-ish placement and do something
+            // more clever later
+            var divisor = Math.sqrt(n);
+            var c_width_margin = Math.ceil( c_width / divisor );
+            var c_height_margin = Math.ceil( c_height / divisor );
+            var dx      = Math.floor( (c_width - c_width_margin)  / divisor ); 
+            var dy      = Math.floor( (c_height - c_height_margin) / divisor );
+
+            // create 'n' neurons and between 1 and 'max' connections for each neuron
+            for( var i = 0; i < n; i++ ) {
+                var x_coefficient = Math.floor( i / divisor );
+                var y_coefficient = i % divisor;
+
+                this.neurons[i] = new Neuron(   x_coefficient*dx + Math.floor( (0.5+Math.random()) * c_width_margin ), 
+                                                y_coefficient*dy + Math.floor( (0.5+Math.random()) * c_height_margin ));
+                
+                var num_connections = Math.floor( Math.random() * max );
+                if ( num_connections == 0 ) num_connections = 1;
+
+                this.connections[i] = [];
+                for ( var j = 0; j < num_connections; j++ ) {
+                    var connection = i;
+                    while ( connection == i || this.connections[i].includes(connection) )
+                        connection = Math.floor( Math.random() * n );
+                    
+                    this.connections[i].push(connection);
+                }
+            }
+        }
+    }
+    
+    var graph = new NeuronGraph(36, 3);
+
+    function draw() {
+      var canvas = document.getElementById('canvas');
+      if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+
+        for( var i = 0; i < graph.n; i++ ) {
+            graph.neurons[i].draw( ctx );
+            var neuron_connections = graph.connections[i];
+            for( var j = 0; j < neuron_connections.length; j++ ) {
+                ctx.beginPath();
+                ctx.strokeStyle = "blue";
+                ctx.moveTo( graph.neurons[i].x, graph.neurons[i].y );
+                ctx.lineTo( graph.neurons[neuron_connections[j]].x, 
+                            graph.neurons[neuron_connections[j]].y );
+                ctx.stroke();
+            }
+        }
+      }
+    }
+  </script>
+ </head>
+ <body onload="draw();">
+    <div>
+        <div style="width: 850px; height: 75px; margin: 10px auto; background-color: rgb(70,70,70);"></div>
+        <div style="width: 850px; margin: auto;">
+            <canvas id="canvas" width="850" height="650"></canvas>
+        </div>
+    </div>
+ </body>
+</html>
